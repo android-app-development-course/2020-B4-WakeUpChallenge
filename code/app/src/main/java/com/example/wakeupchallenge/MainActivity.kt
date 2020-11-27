@@ -11,7 +11,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 //        testAlarmEdit()
+        val intent=Intent(this,AlarmListActivity::class.java)
+//        startActivityForResult(intent,1)
+        startActivity(intent)
     }
+
 
     private fun testAlarmEdit(){
         // 测试用
