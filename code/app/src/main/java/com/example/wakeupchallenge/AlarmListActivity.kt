@@ -42,6 +42,7 @@ class AlarmListActivity : AppCompatActivity(),AlarmAdapter.InnerClickListener {
                     db.update("Alarm", ContentValues().apply{put("open", open)}, "id = $ID", null)
                     db.setTransactionSuccessful()
                     alarmList[position].open = open
+                    Log.d("asdfsdf", "asdfsadf")
                 }catch (e:Exception){
                     //.......................
                 }finally {
