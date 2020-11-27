@@ -9,8 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AlarmActiveActivity"></activity>
-        <activity android:name=".AlarmEditActivity"/>
+        <activity android:name=".AlarmActiveActivity">
+
+        </activity>
+        <activity android:name=".AlarmEditActivity" />
         <activity android:name=".AlarmListActivity" />
         <activity android:name=".AlarmGameActivity" />
         <activity
