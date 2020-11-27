@@ -48,7 +48,6 @@ class AlarmListActivity : AppCompatActivity(),AlarmAdapter.InnerClickListener {
                     db.endTransaction()
                 }
 
-
             }
         }
     }

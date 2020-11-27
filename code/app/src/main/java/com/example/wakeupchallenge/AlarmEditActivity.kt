@@ -13,6 +13,7 @@ import java.util.*
 
 class AlarmEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("Edit", "onCreate: Edit")
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         setContentView(R.layout.activity_alarm_edit)
@@ -23,7 +24,7 @@ class AlarmEditActivity : AppCompatActivity() {
         var name="闹钟"
         var music="铃声"
 
-        if(inBun?.getString("ACTION")=="CREATE"){
+        if(inBun?.getString("ACTION")=="CREAT"){
             nameEdit.setText(name.toCharArray(),0,name.length)
             musicName.setText(music.toCharArray(),0,music.length)
             delBtn.visibility= View.INVISIBLE
