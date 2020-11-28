@@ -175,6 +175,7 @@ class AlarmListActivity : AppCompatActivity(),AlarmAdapter.InnerClickListener {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     private fun initAlarm(db:SQLiteDatabase){
         alarmList.clear()
         val cursor = db.query("Alarm",null,null,null,null,null,null)
@@ -208,6 +209,7 @@ class AlarmListActivity : AppCompatActivity(),AlarmAdapter.InnerClickListener {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.HONEYCOMB_MR1)
     private fun editOperation(bundle:Bundle?){
         val name = bundle?.getString("name", cacheAlarm!!.name)?:cacheAlarm!!.name
         val repeat = bundle?.getBoolean("repeat", cacheAlarm!!.repeat)?:cacheAlarm!!.repeat
@@ -274,6 +276,7 @@ class DatebaseHelper(val context:Context, name:String, version:Int):
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(createAlarm)
+        db.query("Alarm",null,null,null,null,null,null)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
