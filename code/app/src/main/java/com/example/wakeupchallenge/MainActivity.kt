@@ -11,6 +11,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 //        testAlarmEdit()
+        val intent = Intent(this, AlarmListActivity::class.java)
+        startActivity(intent)
+
     }
 
     private fun testAlarmEdit(){
