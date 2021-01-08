@@ -37,8 +37,17 @@ class AlarmListActivity : AppCompatActivity(),AlarmAdapter.InnerClickListener {
                 db.beginTransaction()
                 try {
                     val ID = alarmList[position as Int].ID
+                    val hour=alarmList[position as Int].hour
+                    val minute=alarmList[position as Int].min
+                    val repeat=alarmList[position as Int].repeat
                     val open = v.findViewById<SwitchCompat>(id).isChecked
-
+                    if(open){
+                        MyAlarmManager.setAlarm(this,ID,hour,minute,repeat)
+                        Log.d("testSwt", "click: open")
+                    } else{
+                        MyAlarmManager.resetAlarm(this,ID)
+                        Log.d("testSwt", "click: close")
+                    }
                     db.update("Alarm", ContentValues().apply{put("open", open)}, "id = $ID", null)
                     db.setTransactionSuccessful()
                     alarmList[position].open = open
@@ -119,7 +128,6 @@ class AlarmListActivity : AppCompatActivity(),AlarmAdapter.InnerClickListener {
                 val hour = bundle?.getInt("hour", 0)?:0
                 val min = bundle?.getInt("min", 0)?:0
                 val music = bundle?.getString("music", "Default")?:"Default"
-
                 Log.d("Database", "$open")
                 val values = ContentValues().apply{
                     put("name", name)
@@ -142,6 +150,7 @@ class AlarmListActivity : AppCompatActivity(),AlarmAdapter.InnerClickListener {
                     alarmList.add(AlarmInfo(id,name,repeat,open,hour,min,music))
                     adapter.sort(compareBy<AlarmInfo> { it.hour }.thenBy { it.min })
                     db.setTransactionSuccessful()
+                    MyAlarmManager.setAlarm(this,id,hour,min,repeat)
                 }catch (e:Exception){
                     e.printStackTrace()
                 }finally {
@@ -158,6 +167,7 @@ class AlarmListActivity : AppCompatActivity(),AlarmAdapter.InnerClickListener {
                     try {
                         db.delete("Alarm", "id = ${cacheAlarm!!.ID}", null)
                         alarmList.removeIf { it.ID == cacheAlarm!!.ID }
+                        MyAlarmManager.resetAlarm(this,cacheAlarm!!.ID)
                         adapter.selectedID = -1; cacheAlarm = null
                         adapter.notifyDataSetChanged()
                         db.setTransactionSuccessful()
@@ -166,7 +176,6 @@ class AlarmListActivity : AppCompatActivity(),AlarmAdapter.InnerClickListener {
                     }finally {
                         db.endTransaction()
                     }
-
                 }
                 else
                     editOperation(bundle)
@@ -233,6 +242,9 @@ class AlarmListActivity : AppCompatActivity(),AlarmAdapter.InnerClickListener {
             db.update("Alarm", values, "id = ${cacheAlarm!!.ID}", null)
             alarmList.find { it.ID == cacheAlarm!!.ID }?.change(values)
             adapter.notifyDataSetChanged()
+            if(cacheAlarm!!.open){
+                MyAlarmManager.setAlarm(this,cacheAlarm!!.ID,cacheAlarm!!.hour,cacheAlarm!!.min,cacheAlarm!!.repeat)
+            }
             db.setTransactionSuccessful()
         }catch (e:Exception){
             e.printStackTrace()
