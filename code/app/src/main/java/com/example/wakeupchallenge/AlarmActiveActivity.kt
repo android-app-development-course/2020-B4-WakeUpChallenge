@@ -63,6 +63,7 @@ class AlarmActiveActivity:BaseActivity() {
     override fun pre(view: View?) {
         //继承自父类的左滑
         val intent = Intent(this,AlarmGameActivity::class.java)
+        intent.putExtra("repeat",this.intent.getBooleanExtra("repeat",false))
         intent.putExtra("id",this.intent.getIntExtra("id",-1))
         startActivity(intent)
         overridePendingTransition(R.anim.activity_left_to_right_enter, R.anim.activity_left_to_right_exit)

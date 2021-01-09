@@ -1,21 +1,25 @@
 package com.example.wakeupchallenge
 
+import android.content.ContentValues
 import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_alarm_game.*
+import java.lang.Exception
 import java.util.*
 import kotlin.math.min
 
 class AlarmGameActivity : AppCompatActivity() {
     val update=1
+    private var isWin=false
     val handler=object:Handler(){
         override fun handleMessage(msg: Message) {
             when(msg.what){
@@ -27,6 +31,23 @@ class AlarmGameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alarm_game)
+        // 若非重复闹钟，更新闹钟信息为关闭
+        if(!intent.getBooleanExtra("repeat",false)){
+            Log.d("gameOver", "id:${intent.getIntExtra("id",0)},repeat:${intent.getBooleanExtra("repeat",false)}")
+            val dbHelper = DatebaseHelper(this, "AlarmStore.db", 1)
+            val db = dbHelper.writableDatabase
+            val values = ContentValues()
+            values.put("open",false)
+            db.beginTransaction()
+            try {
+                db.update("Alarm",values,"id=${intent.getIntExtra("id",0)}",null)
+                db.setTransactionSuccessful()
+            }catch (e: Exception){
+                e.printStackTrace()
+            }finally {
+                db.endTransaction()
+            }
+        }
         webView.settings.setJavaScriptEnabled(true)
         webView.addJavascriptInterface(this,"wv")
         webView.webViewClient = WebViewClient()
@@ -50,16 +71,20 @@ class AlarmGameActivity : AppCompatActivity() {
             var hour=cal.get(Calendar.HOUR_OF_DAY)
             var minute = cal.get(Calendar.MINUTE)
             MyAlarmManager.setAlarm(this,(hour*100+minute+10)*(-1),hour,minute+3,false)//设置一个三分钟后的闹钟
-            val intent = Intent(this,MainActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(this,MainActivity::class.java)
+//            startActivity(intent)
+            finish()
         })
         aldg.create().show()
     }
 
     @JavascriptInterface//游戏成功时调用
     public fun ToMainActivity(){
-        val intent = Intent(this,MainActivity::class.java)
-        startActivity(intent)
+        isWin=true
+        Log.d("gameWin", "Win")
+        finish()
+//        val intent = Intent(this,MainActivity::class.java)
+//        startActivity(intent)
     }
 
 }

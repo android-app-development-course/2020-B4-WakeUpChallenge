@@ -79,7 +79,7 @@ class AlarmListActivity : AppCompatActivity(),AlarmAdapter.InnerClickListener {
                 notifyDataSetChanged()
             }
             cacheAlarm = if (adapter.selectedID == -1) null else alarmList[position]
-            Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show()
         }
 
         add.setOnClickListener{
