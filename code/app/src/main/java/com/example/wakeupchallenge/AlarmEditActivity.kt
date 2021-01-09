@@ -21,7 +21,7 @@ class AlarmEditActivity : AppCompatActivity() {
         var h:Int
         var m:Int
         var name="闹钟"
-        var music="铃声"
+        var music="起床"
 
         if(inBun?.getString("ACTION")=="CREAT"){
             nameEdit.setText(name.toCharArray(),0,name.length)
