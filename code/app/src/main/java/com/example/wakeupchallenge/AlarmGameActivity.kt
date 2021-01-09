@@ -34,7 +34,7 @@ class AlarmGameActivity : AppCompatActivity() {
     }
 
     @JavascriptInterface
-    public fun createAlertDialog(){
+    public fun createAlertDialog(){//游戏失败创建对话框
         var flag = false
         var aldg=AlertDialog.Builder(this)
         aldg.setTitle("游戏失败:")
@@ -48,12 +48,18 @@ class AlarmGameActivity : AppCompatActivity() {
             var cal= Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"))
             val id=intent.getIntExtra("id",-1)
             var hour=cal.get(Calendar.HOUR_OF_DAY)
-            var minute = cal.get(Calendar.MINUTE)+3
+            var minute = cal.get(Calendar.MINUTE)
             MyAlarmManager.setAlarm(this,id*(-1),hour,minute+3,false)//设置一个三分钟后的闹钟
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         })
         aldg.create().show()
+    }
+
+    @JavascriptInterface
+    public fun ToMainActivity(){
+        val intent = Intent(this,MainActivity::class.java)
+        startActivity(intent)
     }
 
 }
