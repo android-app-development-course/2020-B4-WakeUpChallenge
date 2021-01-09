@@ -40,6 +40,8 @@ class AlarmEditActivity : AppCompatActivity() {
             m=inBun.getInt("min")
             name = inBun.getString("name")!!
             nameEdit.setText(name.toCharArray(),0,name.length)
+            music = inBun.getString("music")!!
+            musicName.setText(music.toCharArray(),0,music.length)
             repeatSwitch.isChecked=inBun.getBoolean("repeat")
         }
 
@@ -61,6 +63,7 @@ class AlarmEditActivity : AppCompatActivity() {
             retBun.putInt("min",minutePick.value)
             retBun.putBoolean("repeat",repeatSwitch.isChecked)
             retBun.putString("name",nameEdit.text.toString())
+            retBun.putString("music",musicName.text.toString())
             retBun.putString("IS_DEL","FALSE")
 
             ret.putExtras(retBun)
