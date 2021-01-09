@@ -9,9 +9,12 @@ class AlarmReceiver:BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         val action = intent?.action
         val id = intent?.getIntExtra("id", 0)
-        val intent = Intent(context, AlarmActiveActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        val repeat=intent?.getBooleanExtra("repeat",false)
+        val activeIntent = Intent(context, AlarmActiveActivity::class.java)
+        activeIntent.putExtra("id",id)
+        activeIntent.putExtra("repeat",repeat)
+        activeIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         Log.d("testOnReceive", "action:$action, id:$id")
-        context?.startActivity(intent)
+        context?.startActivity(activeIntent)
     }
 }

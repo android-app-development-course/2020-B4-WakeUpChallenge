@@ -46,10 +46,10 @@ class AlarmGameActivity : AppCompatActivity() {
         })
         aldg.setNegativeButton("取消",DialogInterface.OnClickListener(){ dialogInterface: DialogInterface, i: Int ->
             var cal= Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"))
-            val id=intent.getIntExtra("id",-1)
+            val id=intent.getIntExtra("id",0)
             var hour=cal.get(Calendar.HOUR_OF_DAY)
             var minute = cal.get(Calendar.MINUTE)
-            MyAlarmManager.setAlarm(this,id*(-1),hour,minute+3,false)//设置一个三分钟后的闹钟
+            MyAlarmManager.setAlarm(this,(hour*100+minute+10)*(-1),hour,minute+3,false)//设置一个三分钟后的闹钟
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         })

@@ -17,6 +17,7 @@ object MyAlarmManager {
         val intent = Intent(context, AlarmReceiver::class.java)
         intent.action = "activity.AlarmActive.SINGLE_ACTION"
         intent.putExtra("id", id)
+        intent.putExtra("repeat",repeat)
         val pending = PendingIntent.getBroadcast(context, id, intent, 0)
 
         //firstTime:获取当前系统时间
@@ -41,7 +42,6 @@ object MyAlarmManager {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             selectTime = calendar.getTimeInMillis();
         }
-
         //time:计算现在时间到设定时间的时间差
         //my_time:系统当前的时间+时间差
         var time = selectTime - systemTime

@@ -242,9 +242,6 @@ class AlarmListActivity : AppCompatActivity(),AlarmAdapter.InnerClickListener {
             db.update("Alarm", values, "id = ${cacheAlarm!!.ID}", null)
             alarmList.find { it.ID == cacheAlarm!!.ID }?.change(values)
             adapter.notifyDataSetChanged()
-            if(cacheAlarm!!.open){
-                MyAlarmManager.setAlarm(this,cacheAlarm!!.ID,cacheAlarm!!.hour,cacheAlarm!!.min,cacheAlarm!!.repeat)
-            }
             db.setTransactionSuccessful()
         }catch (e:Exception){
             e.printStackTrace()
