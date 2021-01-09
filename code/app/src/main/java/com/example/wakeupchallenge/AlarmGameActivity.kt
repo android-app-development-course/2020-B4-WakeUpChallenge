@@ -56,7 +56,7 @@ class AlarmGameActivity : AppCompatActivity() {
         aldg.create().show()
     }
 
-    @JavascriptInterface
+    @JavascriptInterface//游戏成功时调用
     public fun ToMainActivity(){
         val intent = Intent(this,MainActivity::class.java)
         startActivity(intent)

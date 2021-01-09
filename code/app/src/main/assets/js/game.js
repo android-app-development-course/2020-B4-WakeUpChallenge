@@ -318,7 +318,7 @@ var Game = (function(){
                 var str = "已完成，确定再来一局吗？";
                 alert(str);
                 window.wv.ToMainActivity()
-                location.reload();
+                //location.reload();
             }, 50);
         },
         
@@ -327,7 +327,7 @@ var Game = (function(){
             var str = "失败！确定再来一局吗？";
             alert(str);
             window.wv.createAlertDialog()
-            location.reload();
+            //location.reload();
         },
 
         checkWinning: function () {
