@@ -12,7 +12,7 @@ import com.example.gesturedemo.BaseActivity
 import kotlinx.android.synthetic.main.activity_alarm_active.*
 import java.util.*
 
-class AlarmActiveActivity : BaseActivity() {
+class AlarmActiveActivity:BaseActivity() {
     private val mediaPlayer = MediaPlayer()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,12 +26,9 @@ class AlarmActiveActivity : BaseActivity() {
         var month = (cal.get(Calendar.MONDAY)+1).toString()
         var day= cal.get(Calendar.DATE).toString()
         var time1=year+'年'+month+'月'+day+'日'
-        var hour=cal.get(Calendar.HOUR).toString()
-        if(cal.get(Calendar.AM_PM)==0){
-            hour= (hour+12).toString()
-        }
+        var hour=cal.get(Calendar.HOUR_OF_DAY)
         var minute = cal.get(Calendar.MINUTE)
-        var time2=hour+':'+minute
+        var time2=hour.toString()+':'+minute
         var week = when(cal.get(Calendar.DAY_OF_WEEK)){
             cal.get(Calendar.MONDAY)->"星期一"
             cal.get(Calendar.TUESDAY)->"星期二"
@@ -56,14 +53,14 @@ class AlarmActiveActivity : BaseActivity() {
 
     override fun next(view: View?) {
         //继承自父类的右滑
-        val intent = Intent(this,AlarmGameActivityKT::class.java)
+        val intent = Intent(this,AlarmGameActivity::class.java)
         startActivity(intent)
         overridePendingTransition(R.anim.activity_right_to_left_enter, R.anim.activity_right_to_left_exit)
     }
 
     override fun pre(view: View?) {
         //继承自父类的左滑
-        val intent = Intent(this,AlarmGameActivityKT::class.java)
+        val intent = Intent(this,AlarmGameActivity::class.java)
         startActivity(intent)
         overridePendingTransition(R.anim.activity_left_to_right_enter, R.anim.activity_left_to_right_exit)
     }

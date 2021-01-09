@@ -16,7 +16,7 @@
         <activity android:name=".AlarmListActivity" >
 
         </activity>
-        <activity android:name=".AlarmGameActivityKT" />
+        <activity android:name=".AlarmGameActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
