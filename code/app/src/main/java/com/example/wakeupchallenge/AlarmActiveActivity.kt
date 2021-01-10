@@ -41,6 +41,7 @@ class AlarmActiveActivity:BaseActivity() {
         ymdtextView.text=time1
         hmtextView.text=time2
         wtextView.text=week
+        AlarmtextView.text=intent.getStringExtra("name")
     }
 
     override fun onResume() {

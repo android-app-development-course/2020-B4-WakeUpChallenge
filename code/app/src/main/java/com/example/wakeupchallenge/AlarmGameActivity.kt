@@ -73,9 +73,10 @@ class AlarmGameActivity : AppCompatActivity() {
             hasSelected=true
             var cal= Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"))
             val id=intent.getIntExtra("id",0)
+            val name=intent.getStringExtra("name")!!
             var hour=cal.get(Calendar.HOUR_OF_DAY)
             var minute = cal.get(Calendar.MINUTE)
-            MyAlarmManager.setAlarm(this,(hour*100+minute+10)*(-1),hour,minute+3,false)//设置一个三分钟后的闹钟
+            MyAlarmManager.setAlarm(this,(hour*100+minute+10)*(-1),hour,minute+3,false,name)//设置一个三分钟后的闹钟
 //            val intent = Intent(this,MainActivity::class.java)
 //            startActivity(intent)
             finish()
@@ -87,9 +88,10 @@ class AlarmGameActivity : AppCompatActivity() {
             if (!hasSelected){
                 var cal= Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"))
                 val id=intent.getIntExtra("id",0)
+                val name=intent.getStringExtra("name")!!
                 var hour=cal.get(Calendar.HOUR_OF_DAY)
                 var minute = cal.get(Calendar.MINUTE)
-                MyAlarmManager.setAlarm(context,(hour*100+minute+10)*(-1),hour,minute+3,false)//设置一个三分钟后的闹钟
+                MyAlarmManager.setAlarm(context,(hour*100+minute+10)*(-1),hour,minute+3,false,name)//设置一个三分钟后的闹钟
                 finish()
             }
         },10*1000)

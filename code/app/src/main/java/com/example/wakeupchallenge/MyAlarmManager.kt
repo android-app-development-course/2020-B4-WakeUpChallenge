@@ -10,7 +10,7 @@ import android.widget.Toast
 import java.util.*
 
 object MyAlarmManager {
-    public fun setAlarm(context: Context ,id:Int,hour:Int,minute:Int,repeat:Boolean){
+    public fun setAlarm(context: Context ,id:Int,hour:Int,minute:Int,repeat:Boolean,name:String){
         Log.d("context", "setAlarm: ${context.toString()}")
         //intent.action中的内容是自定义的
         //不同闹钟对应不同定时器，应对应不同的requestCode。否则只有最后一个定时器生效。
@@ -18,6 +18,7 @@ object MyAlarmManager {
         intent.action = "activity.AlarmActive.SINGLE_ACTION"
         intent.putExtra("id", id)
         intent.putExtra("repeat",repeat)
+        intent.putExtra("name",name)
         val pending = PendingIntent.getBroadcast(context, id, intent, 0)
 
         //firstTime:获取当前系统时间
