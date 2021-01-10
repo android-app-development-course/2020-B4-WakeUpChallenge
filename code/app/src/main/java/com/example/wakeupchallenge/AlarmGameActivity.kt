@@ -15,11 +15,13 @@ import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_alarm_game.*
 import java.lang.Exception
 import java.util.*
+import kotlin.concurrent.timer
+import kotlin.concurrent.timerTask
 import kotlin.math.min
 
 class AlarmGameActivity : AppCompatActivity() {
     val update=1
-    private var isWin=false
+    private var hasSelected=false
     val handler=object:Handler(){
         override fun handleMessage(msg: Message) {
             when(msg.what){
@@ -57,15 +59,18 @@ class AlarmGameActivity : AppCompatActivity() {
     @JavascriptInterface
     public fun createAlertDialog(){//游戏失败创建对话框
         var flag = false
+        hasSelected=false
         var aldg=AlertDialog.Builder(this)
         aldg.setTitle("游戏失败:")
         aldg.setMessage("是否立即重试,否则在三分钟后重试")
         aldg.setPositiveButton("确定",DialogInterface.OnClickListener(){ dialogInterface: DialogInterface, i: Int ->
+            hasSelected=true
             val msg = Message()
             msg.what=update
             handler.sendMessage(msg)//游戏失败发送消息更新界面重新开始游戏
         })
         aldg.setNegativeButton("取消",DialogInterface.OnClickListener(){ dialogInterface: DialogInterface, i: Int ->
+            hasSelected=true
             var cal= Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"))
             val id=intent.getIntExtra("id",0)
             var hour=cal.get(Calendar.HOUR_OF_DAY)
@@ -76,11 +81,22 @@ class AlarmGameActivity : AppCompatActivity() {
             finish()
         })
         aldg.create().show()
+        val timer=Timer()
+        val context=this
+        timer.schedule(timerTask {
+            if (!hasSelected){
+                var cal= Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"))
+                val id=intent.getIntExtra("id",0)
+                var hour=cal.get(Calendar.HOUR_OF_DAY)
+                var minute = cal.get(Calendar.MINUTE)
+                MyAlarmManager.setAlarm(context,(hour*100+minute+10)*(-1),hour,minute+3,false)//设置一个三分钟后的闹钟
+                finish()
+            }
+        },10*1000)
     }
 
     @JavascriptInterface//游戏成功时调用
     public fun ToMainActivity(){
-        isWin=true
         Log.d("gameWin", "Win")
         finish()
 //        val intent = Intent(this,MainActivity::class.java)
