@@ -74,6 +74,7 @@ class AlarmActiveActivity:BaseActivity() {
         intent.putExtra("repeat",this.intent.getBooleanExtra("repeat",false))
         startActivity(intent)
         overridePendingTransition(R.anim.activity_right_to_left_enter, R.anim.activity_right_to_left_exit)
+        finish()
     }
 
     override fun pre(view: View?) {
@@ -83,6 +84,7 @@ class AlarmActiveActivity:BaseActivity() {
         intent.putExtra("id",this.intent.getIntExtra("id",-1))
         startActivity(intent)
         overridePendingTransition(R.anim.activity_left_to_right_enter, R.anim.activity_left_to_right_exit)
+        finish()
     }
 
     private fun initMediaPlayer(){
