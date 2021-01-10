@@ -1,23 +1,38 @@
 package com.example.wakeupchallenge
 
+
+import android.app.Service
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Vibrator
+
 import android.view.View
 
 
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.gesturedemo.BaseActivity
 import kotlinx.android.synthetic.main.activity_alarm_active.*
 import java.util.*
+import java.util.jar.Manifest
 
 class AlarmActiveActivity:BaseActivity() {
     private val mediaPlayer = MediaPlayer()
+    private lateinit var vibrator:Vibrator
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alarm_active)
-
+        if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.VIBRATE)!=PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,
+            arrayOf(android.Manifest.permission.VIBRATE),1)
+        }else{
+            startvibrator()
+        }
         var imageView=findViewById(R.id.imageView) as ImageView
         Glide.with(this).load(R.drawable.fire).into(imageView)
 
@@ -82,5 +97,28 @@ class AlarmActiveActivity:BaseActivity() {
         super.onPause()
         mediaPlayer.stop()
         mediaPlayer.release()
+        vibrator.cancel()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode){
+            1->{
+                if(grantResults.isNotEmpty()&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    startvibrator()
+                }else{
+                    Toast.makeText(this,"You denied the permission",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+    fun startvibrator(){
+        vibrator=this.getSystemService(Service.VIBRATOR_SERVICE) as Vibrator
+        var patter=longArrayOf(1000,1000,2000,50)
+        vibrator.vibrate(patter,0)
     }
 }
