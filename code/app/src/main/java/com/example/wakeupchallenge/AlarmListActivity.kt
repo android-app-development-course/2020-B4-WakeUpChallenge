@@ -226,7 +226,7 @@ class AlarmListActivity : AppCompatActivity(),AlarmAdapter.InnerClickListener {
         val hour = bundle?.getInt("hour", cacheAlarm!!.hour)?:cacheAlarm!!.hour
         val min = bundle?.getInt("min", cacheAlarm!!.min)?:cacheAlarm!!.min
         val music = bundle?.getString("music", cacheAlarm!!.music)?:cacheAlarm!!.music
-        
+        MyAlarmManager.resetAlarm(this,cacheAlarm!!.ID)
         val values = ContentValues().apply {
             put("name", name)
             put("repeat", repeat)
@@ -241,6 +241,7 @@ class AlarmListActivity : AppCompatActivity(),AlarmAdapter.InnerClickListener {
         try {
             db.update("Alarm", values, "id = ${cacheAlarm!!.ID}", null)
             alarmList.find { it.ID == cacheAlarm!!.ID }?.change(values)
+            MyAlarmManager.setAlarm(this,cacheAlarm!!.ID,hour,min,repeat)
             adapter.notifyDataSetChanged()
             db.setTransactionSuccessful()
         }catch (e:Exception){
