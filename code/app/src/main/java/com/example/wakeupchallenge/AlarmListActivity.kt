@@ -251,6 +251,14 @@ class AlarmListActivity : AppCompatActivity(),AlarmAdapter.InnerClickListener {
             db.endTransaction()
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        dbHelper = DatebaseHelper(this, "AlarmStore.db", 1)
+        val db = dbHelper.writableDatabase
+
+        initAlarm(db)
+    }
 }
 
 
